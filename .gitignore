@@ -1,0 +1,33 @@
+*.class
+*.log
+# use glob syntax.
+syntax: glob
+creds.clj
+Manifest.txt
+pom.xml
+aws.clj
+*.ser
+*.class
+*.jar
+*~
+*.bak
+*.off
+*.old
+.DS_Store
+*.#*
+*#*
+*.classpath
+*.project
+*.settings
+*.pyc
+
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
