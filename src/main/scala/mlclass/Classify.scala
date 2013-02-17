@@ -17,8 +17,6 @@ object Classify extends App {
 
   val PUNCTUATION = """[!"#$%&'()*+,-./:;<=>?@\[\]^_`{|}~]""".r
 
-  val TEST = """Hello th@ere "air bunnies" . haha is extralongwordreallyitis it humming along getting it hello"""
-
   var modelIn: InputStream = new FileInputStream("models/en-token.bin");
   var model: TokenizerModel = null
 
@@ -114,10 +112,6 @@ object Classify extends App {
     lines
   }
 
-  // println(escapePunctuation(TEST))
-
-  // val features = getFeatures(TEST)
-  // for (f <- features) println(f)
 
   val start: Long = System.currentTimeMillis()
   val data = labels.zip(labels.map(readLines)).toMap

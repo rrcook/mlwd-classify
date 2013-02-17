@@ -63,6 +63,8 @@ object ClassifyAkka extends App {
   }
 
   class Worker extends Actor {
+    
+    // I'm unsure of the parallel/thread safety of these objects
     val tokenizer = new TokenizerME(model)
     val stemmer = new EnglishStemmer
 
@@ -100,11 +102,6 @@ object ClassifyAkka extends App {
 
     def incrementCat(category: String): Unit = {
       categoryCount(category) = categoryCount.getOrElse(category, 0) + 1
-    }
-
-    def train(item: String, category: String): Unit = {
-      for ((f, v) <- getFeatures(tokenizer, stemmer, item)) incrementFeature(f, category)
-      incrementCat(category)
     }
 
     val workerRouter = context.actorOf(
@@ -172,11 +169,6 @@ object ClassifyAkka extends App {
       wp
     }
 
-    // println(escapePunctuation(TEST))
-
-    // val features = getFeatures(TEST)
-    // for (f <- features) println(f)
-
     // println(data("arts").mkString(", "))
 
     val end: Long = System.currentTimeMillis()
@@ -203,12 +195,12 @@ object ClassifyAkka extends App {
     // shutdown the system
     val listener = system.actorOf(Props[Listener], name = "listener")
 
-    // create the master
+    // create the trainer
     val trainer = system.actorOf(Props(new Trainer(
       nrOfWorkers, labels, listener)),
       name = "trainer")
 
-    // start the calculation
+    // start the chain of processes
     trainer ! Train
 
   }
